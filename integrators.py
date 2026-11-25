@@ -40,9 +40,11 @@ class BaseIntegrator:
         n=initial_n
         i_prev=self.integrate(n)
         denominator=(2**self.order)-1
+        print(f"n = {n:<2} -> I = {i_prev:.7f}")
         while True:
             n*=2
             i_curr=self.integrate(n)
+            print(f"n = {n:<2} -> I = {i_curr:.7f}")
             error=abs(i_curr-i_prev)/denominator
             if error<eps:
                 i_refined=i_curr+(i_curr-i_prev)/denominator
@@ -99,4 +101,4 @@ class SimpsonIntegrator(BaseIntegrator):
         h=(self.b-self.a)/n
         odd_sum=sum(self.func(self.a+i*h) for i in range(1,n,2)) 
         even_sum=sum(self.func(self.a+i*h) for i in range(2,n-1,2))
-        return (h/3)*(self.func(self.a) + self.func(self.a)+4*odd_sum+2*even_sum)
+        return (h/3)*(self.func(self.a) + self.func(self.b)+4*odd_sum+2*even_sum)
